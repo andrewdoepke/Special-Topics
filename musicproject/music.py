@@ -6,5 +6,7 @@ import numpy as np
 top10 = pd.read_csv("top10s.csv", index_col=0)
 megas = pd.read_csv("spotify_mega.csv", index_col=0)
 
-print(megas.head())
+alldf = pd.concat([top10, megas]).reset_index(drop=True)
+
+print(alldf)
 
