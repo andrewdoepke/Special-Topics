@@ -1,29 +1,35 @@
+import numpy as np
+import pandas as pd
+pd.options.mode.chained_assignment = None  # default='warn'
+
 def distance(self, songt):
-    songt_pt = (songt['nrgy'], songt['dnce'], songt['acous'], songt['spch'], songt['pop'])
+    songt_pt = np.array((songt['nrgy'], songt['dnce'], songt['acous'], songt['val']))
 
-def __init__(self, data):
-    self.data = data
-    self.song = None
-    self.song_pt = None
+    dist = np.linalg.norm(self.song_pt - songt_pt)
 
-def recommend(self, song):
-    self.song = song
-    self.song_pt = (song['nrgy'], song['dnce'], song['acous'], song['spch'], song['pop'])
+    #print(dist)
+    return dist
 
-    grouped = self.data.groupby(['index'])
+class recommender:
+    def __init__(self):
+        self.data = None
+        self.song = None
+        self.song_pt = None
 
+    def recommend(self, data, song):
+        self.song = song #set song
+        self.data = data #set data
+        #get rid of current song from our data
+        self.data = data[data.title != song.title].reset_index().drop_duplicates(subset='title', keep="last")
 
+        #generate datapoint for song to make recommendations off of
+        self.song_pt = np.array((song['nrgy'], song['dnce'], song['acous'], song['val']))
 
+        #generate similarity scores
+        simi = self.data
+        simi['similarity'] = self.data.apply(lambda row: distance(self, row), axis=1)
 
-# Create the popularity based recommender system model
-#def create(self, train_data, user_id, item_id):
+        #sort by smallest similarity
+        sort = simi.sort_values('similarity', ascending=True)
 
-    # Get a count of user_ids for each unique song as   recommendation score
-    #train_data_grouped = train_data.groupby([self.item_id]).agg({self.user_id: 'count'}).reset_index()
-    #train_data_grouped.rename(columns={'user_id': 'score'}, inplace=True)
-    # Sort the songs based upon recommendation score
-    #train_data_sort = train_data_grouped.sort_values(['score', self.item_id], ascending=[0, 1])
-    # Generate a recommendation rank based upon score
-    #train_data_sort['Rank'] = train_data_sort['score'].rank(ascending=0, method='first')
-    # Get the top 10 recommendations
-    #self.popularity_recommendations = train_data_sort.head(10)
+        return sort.head(10)
