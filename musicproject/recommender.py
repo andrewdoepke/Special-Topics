@@ -1,11 +1,17 @@
-# Class for Popularity based Recommender System modelclass popularity_recommender_py():
-def __init__(self, data, song):
-    self.data = None
-    self.song = None
+def distance(self, songt):
+    songt_pt = (songt['nrgy'], songt['dnce'], songt['acous'], songt['spch'], songt['pop'])
 
-def recommend(self, song, data):
-    self.song = song
+def __init__(self, data):
     self.data = data
+    self.song = None
+    self.song_pt = None
+
+def recommend(self, song):
+    self.song = song
+    self.song_pt = (song['nrgy'], song['dnce'], song['acous'], song['spch'], song['pop'])
+
+    grouped = self.data.groupby(['index'])
+
 
 
 
