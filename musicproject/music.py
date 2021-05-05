@@ -1,17 +1,6 @@
 import pandas as pd
 import recommender as r
-import difflib as dl
 import random
-
-
-def closest_title(uinp, title): #find index of title in the titles array closest to user input
-    stri = dl.get_close_matches(uinp, title, n=1) #get closest matched word to input
-    ind = 0
-    for s in title: #figure out index of this based on if the word is in the title
-        if s in stri:
-            return ind
-        ind += 1
-    return None
 
 def load_data(): #load the datafiles
     # load in CSV files
@@ -25,9 +14,10 @@ def load_data(): #load the datafiles
     return alldf
 
 def song_in(alldf): #take user input
+
     titles = alldf['title'].array #grab titles of the dataframe
     uinput = input("Enter the name of a song as best as you can:\nIf you would like recommendations from a random song, just press enter.\n")
-    songind = closest_title(uinput, titles) #find index of song based on input
+    songind = r.closest_title(uinput, titles) #find index of song based on input
     if songind is not None:
         return alldf.iloc[songind] #return song requested
     else:
