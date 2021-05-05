@@ -1,6 +1,16 @@
 import numpy as np
 import pandas as pd
+import difflib as dl
 pd.options.mode.chained_assignment = None  # default='warn'
+
+def closest_title(uinp, title):  # find index of title in the titles array closest to user input
+    stri = dl.get_close_matches(uinp, title, n=1)  # get closest matched word to input
+    ind = 0
+    for s in title:  # figure out index of this based on if the word is in the title
+        if s in stri:
+            return ind
+        ind += 1
+    return None
 
 def distance(self, songt):
     songt_pt = np.array((songt['nrgy'], songt['dnce'], songt['acous'], songt['val']))
