@@ -12,21 +12,21 @@ def closest_title(uinp, title):  # find index of title in the titles array close
         ind += 1
     return None
 
-def distance(self, songt):
+def distance(self, songt): #find distance between song points with 4 axis
     songt_pt = np.array((songt['nrgy'], songt['dnce'], songt['acous'], songt['val']))
 
-    dist = np.linalg.norm(self.song_pt - songt_pt)
+    dist = np.linalg.norm(self.song_pt - songt_pt) #euclidian distance between points
 
     #print(dist)
     return dist
 
-class recommender:
+class recommender: #recommender class to be instantiated in main function(I did it this way to try OOP in Python since I haven't really done anything this way yet)
     def __init__(self):
         self.data = None
         self.song = None
         self.song_pt = None
 
-    def recommend(self, data, song):
+    def recommend(self, data, song): #recommend songs based on data and song passed
         self.song = song #set song
         self.data = data #set data
         #get rid of current song from our data
@@ -42,4 +42,4 @@ class recommender:
         #sort by smallest similarity
         sort = simi.sort_values('similarity', ascending=True)
 
-        return sort.head(10)
+        return sort.head(10) #returns best 10 matches
